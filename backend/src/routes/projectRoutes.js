@@ -2,6 +2,7 @@ const express = require('express');
 const { authenticate } = require('../middleware/auth');
 const projectModel = require('../models/projectModel');
 const router = express.Router();
+const pool    = require('../utils/db');         // ← c’est ça qui manquait
 
 // Liste des projets
 router.get('/', authenticate, async (req, res) => {

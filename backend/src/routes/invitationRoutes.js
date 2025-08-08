@@ -3,6 +3,7 @@ const { authenticate } = require('../middleware/auth');
 const { createInvitation } = require('../models/invitationModel');
 const nodemailer = require('nodemailer');
 const router = express.Router();
+const pool    = require('../utils/db');         // ← c’est ça qui manquait
 
 router.post('/:project_id/invite', authenticate, async (req, res) => {
   const { email } = req.body;

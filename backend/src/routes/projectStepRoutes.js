@@ -2,6 +2,7 @@ const express = require('express');
 const { authenticate } = require('../middleware/auth');
 const { addStep, getSteps, deleteStep } = require('../models/projectStepModel');
 const router = express.Router();
+const pool    = require('../utils/db');         // ← c’est ça qui manquait
 
 router.post('/:project_id/steps', authenticate, async (req, res) => {
   const { label, step_date, step_comment, status } = req.body;

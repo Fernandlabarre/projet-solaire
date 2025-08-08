@@ -5,6 +5,7 @@ const { getUserByEmail, createUser } = require('../models/userModel');
 const { authenticate } = require('../middleware/auth');
 const router = express.Router();
 const { getAllUsers } = require('../models/userModel'); // ajoute ce require en haut
+const pool    = require('../utils/db');         // ← c’est ça qui manquait
 
 // Inscription
 // Inscription (admin only via API, ou public via front login)

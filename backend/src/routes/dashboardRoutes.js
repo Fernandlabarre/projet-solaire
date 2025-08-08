@@ -1,5 +1,6 @@
 const express = require("express");
 const { getUpcomingMilestones, getRecentActivity, getOverdueMilestones  } = require("../controllers/dashboardController");
+const pool    = require('../utils/db');         // ← c’est ça qui manquait
 
 const router = express.Router();
 
