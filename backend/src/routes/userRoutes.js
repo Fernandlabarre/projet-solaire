@@ -3,9 +3,11 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { getUserByEmail, createUser } = require('../models/userModel');
 const { authenticate } = require('../middleware/auth');
-const router = express.Router();
 const { getAllUsers } = require('../models/userModel'); // ajoute ce require en haut
 const pool    = require('../utils/db');         // ← c’est ça qui manquait
+
+const { JWT_SECRET } = process.env;
+const router = express.Router();
 
 // Inscription
 // Inscription (admin only via API, ou public via front login)
