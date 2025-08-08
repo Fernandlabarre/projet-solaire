@@ -22,3 +22,21 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# Variables d’environnement
+.env
+.env.*.local
+
+# Coverage
+coverage/
+
+# Dossier de build front (si tu en as un autre)
+build/
+
+# Docker
+docker-compose.override.yml
+.Dockerfile.swp
+
+# Mac/Windows
+Desktop.ini
+ehthumbs.db
+Icon?

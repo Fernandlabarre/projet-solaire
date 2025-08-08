@@ -1,0 +1,24 @@
+# Variables d’environnement
+.env
+.env.*.local
+
+# Logs
+logs/
+*.log
+
+# Node/Card
+node_modules/
+dist/
+coverage/
+build/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Desktop.ini
+ehthumbs.db
+Icon?
+
+# Docker overrides
+docker-compose.override.yml
