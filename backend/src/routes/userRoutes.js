@@ -22,21 +22,37 @@ router.post('/register', authenticate, async (req, res) => {
 
 // Connexion
 router.post('/login', async (req, res) => {
-    console.log('BODY:', req.body); // AJOUTE CETTE LIGNE !
+  console.log('BODY:', req.body);
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email et mot de passe requis' });
+    }
 
-  const { email, password } = req.body;
-  const user = await getUserByEmail(email);
-  if (!user) return res.status(401).json({ error: 'Identifiants invalides' });
+    // 1) Récupère l’utilisateur en base
+    const user = await pool.query(
+      'SELECT * FROM users WHERE email=$1',
+      [email]
+    ).then(r => r.rows[0]);
 
-  const valid = await bcrypt.compare(password, user.password_hash);
-  if (!valid) return res.status(401).json({ error: 'Identifiants invalides' });
+    if (!user) {
+      return res.status(401).json({ error: 'Utilisateur non trouvé' });
+    }
 
-  const token = jwt.sign(
-    { id: user.id, role: user.role, email: user.email },
-    process.env.JWT_SECRET,
-    { expiresIn: '7d' }
-  );
-  res.json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role } });
+    // 2) Compare le mot de passe
+    const match = await bcrypt.compare(password, user.password_hash);
+    if (!match) {
+      return res.status(401).json({ error: 'Mot de passe incorrect' });
+    }
+
+    // 3) Tout est OK → génère un token, etc.
+    const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET);
+    res.json({ token });
+  } catch (err) {
+    // **Affiche la stack complète**
+    console.error('💥 Erreur dans /api/users/login:', err);
+    res.status(500).json({ error: 'Erreur interne du serveur' });
+  }
 });
 
 // Exemple route protégée
